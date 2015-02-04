@@ -1,0 +1,2 @@
+Download sdk from:
+	http://www.foobar2000.org/SDK
