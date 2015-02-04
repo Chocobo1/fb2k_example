@@ -1,0 +1,19 @@
+To get fb2k sdk working in VS2013 express
+
+1. Follow most instructions in http://yirkha.fud.cz/tmp/496351ef.tutorial-draft.html
+
+2. Add the following projects to VS solution (existing project)
+ * pfc
+ * foobar2000_sdk
+ * foobar2000_sdk_helpers
+ * foobar2000_component_client
+
+3. Add & check all of the above projects in
+	project's properties/common properties/refereneces
+
+4. Add "SDK-2015-01-14\foobar2000\shared" to 
+	project's properties/vc++ directories/include directories
+	project's properties/vc++ directories/library directories
+
+5. Add "shared.lib" to
+	project's properties/linker/input/additional dependencies/
