@@ -1,4 +1,4 @@
-## foo_test
+## fb2k_example
 A minimal project for developing foobar2000 component in VS2013 express
 
 
