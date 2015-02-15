@@ -9,6 +9,9 @@ A minimal project for developing foobar2000 component in VS2013 express
 4. `foo_test.dll` will be generated at `Debug/` or `Release/` directory depending on your configuration
 5. To load the component in foobar2000, copy the generated dll to `foobar2000/components` directory
 
+### Notes
+* Don't use [Link-time Code Generation (LTCG)](https://msdn.microsoft.com/en-us/library/xbf3tbeh.aspx) on `foobar2000_SDK` project. Switching it on gives me bad allocation error when getting info from metaDB
+
 ### Useful references
 * [foobar2000 development tutorial](http://yirkha.fud.cz/tmp/496351ef.tutorial-draft.html)
 * [Resources for foobar2000 component developers](http://foosion.foobar2000.org/developers/)
