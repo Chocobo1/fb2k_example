@@ -10,7 +10,7 @@ A minimal project for developing foobar2000 component in VS2013 express
 5. To load the component in foobar2000, copy the generated dll to `foobar2000/components` directory
 
 ### Notes
-* Don't use [Link-time Code Generation (LTCG)](https://msdn.microsoft.com/en-us/library/xbf3tbeh.aspx) on `foobar2000_SDK` project. Switching it on gives me bad allocation error when getting info from metaDB
+* [Visual Studio 2013 & 2015 compatibility notice](http://www.hydrogenaud.io/forums/index.php?showtopic=108411)
 
 ### Useful references
 * [foobar2000 development tutorial](http://yirkha.fud.cz/tmp/496351ef.tutorial-draft.html)
