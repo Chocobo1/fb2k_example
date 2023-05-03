@@ -32,7 +32,7 @@ jobs:
       - name: Patch SDK
         run: |
           (Get-Content "lib\foobar2000_sdk\foobar2000\helpers\foobar2000_sdk_helpers.vcxproj") `
-            | ForEach-Object { $_ -replace '..\\packages\\wtl', '..\..\..\..\packages\wtl' } `
+            | ForEach-Object { $_ -replace '\.\.\\packages\\wtl', '..\..\..\..\packages\wtl' } `
             | Set-Content "lib\foobar2000_sdk\foobar2000\helpers\foobar2000_sdk_helpers.vcxproj"
 
       - name: Setup devcmd
