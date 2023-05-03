@@ -1,6 +1,11 @@
 ## fb2k_example
 A minimal project for developing foobar2000 component in VS2022
 
+[![GithubActions_badge]][GithubActions_link]
+
+[GithubActions_badge]: https://github.com/Chocobo1/fb2k_example/actions/workflows/ci.yaml/badge.svg
+[GithubActions_link]: https://github.com/Chocobo1/fb2k_example/actions
+
 ### Usage
 1. Get [foobar2000 SDK](https://www.foobar2000.org/SDK) and extract it into `lib\foobar2000_sdk` directory \
    The SDK version used at the time is `2023-04-18`.

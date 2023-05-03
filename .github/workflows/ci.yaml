@@ -1,0 +1,63 @@
+name: CI
+
+on: [pull_request, push]
+
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: ${{ github.head_ref != '' }}
+
+jobs:
+  ci:
+    name: Build
+    runs-on: windows-latest
+
+    env:
+      FBSDK_VERSION: 2023-04-18
+
+      SOL_FILE: foo_test.sln
+      MSBUILD_CMD_X86: /maxcpucount /property:RestorePackagesConfig=true,Configuration=Release,Platform=Win32 /target:restore,build
+      MSBUILD_CMD_X64: /maxcpucount /property:RestorePackagesConfig=true,Configuration=Release,Platform=x64   /target:restore,build
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install SDK
+        run: |
+          (New-Object System.Net.WebClient).DownloadFile("https://www.foobar2000.org/files/SDK-${{ env.FBSDK_VERSION }}.7z", "${{ runner.temp }}\fbsdk.7z")
+          7z x "${{ runner.temp }}\fbsdk.7z" -o"lib\foobar2000_sdk" > nul
+
+      - name: Patch SDK
+        run: |
+          (Get-Content "lib\foobar2000_sdk\foobar2000\helpers\foobar2000_sdk_helpers.vcxproj") `
+            | ForEach-Object { $_ -replace '..\\packages\\wtl', '..\..\..\..\packages\wtl' } `
+            | Set-Content "lib\foobar2000_sdk\foobar2000\helpers\foobar2000_sdk_helpers.vcxproj"
+
+      - name: Setup devcmd
+        uses: ilammy/msvc-dev-cmd@v1
+
+      - name: Build x86
+        run: |
+          msbuild ${{ env.SOL_FILE }} ${{ env.MSBUILD_CMD_X86 }}
+
+      - name: Build x64
+        run: |
+          msbuild ${{ env.SOL_FILE }} ${{ env.MSBUILD_CMD_X64 }}
+
+      - name: Prepare build artifacts
+        run: |
+          copy "Release\foo_test.dll" "."
+          copy "x64\Release\foo_test.dll" "x64"
+          7z a -tzip -mx9 "foo_test.fb2k-component" "foo_test.dll" "x64\foo_test.dll"
+          $hash = (Get-FileHash -Algorithm SHA256 "foo_test.fb2k-component").hash.ToString().toLower()
+          Write-Output "$hash *foo_test.fb2k-component" > "foo_test.fb2k-component.sha256"
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: foo_test
+          path: |
+            foo_test.fb2k-component
+            foo_test.fb2k-component.sha256
